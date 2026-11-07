@@ -1,0 +1,195 @@
+/* vibe coded by @ZiggysGlizzy on X */
+/* Ziggy's Giveaway Picker — dark neon palette (swap vars to retheme) */
+:root {
+  --bg: #0a0a0f;
+  --surface: rgba(12, 12, 20, 0.82);
+  --text: #f5f5f7;
+  --muted: #a0a0b0;
+  --accent: #ff2bd6; /* neon magenta */
+  --accent-2: #7b2cff; /* purple */
+  --accent-3: #ffb020; /* orange-yellow */
+  --border: rgba(255, 255, 255, 0.12);
+  --danger: #ff4d6d;
+  --quiet: rgba(255, 255, 255, 0.08);
+  --input-bg: rgba(0, 0, 0, 0.45);
+  --overlay: linear-gradient(180deg, rgba(8, 6, 16, 0.72), rgba(8, 6, 16, 0.88));
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  width: 380px;
+  max-height: 600px;
+  overflow-y: auto;
+  font: 13px/1.45 system-ui, -apple-system, Segoe UI, sans-serif;
+  color: var(--text);
+  background-color: var(--bg);
+  background-image: var(--overlay), url("assets/popup-bg.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 12px;
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px 14px 16px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+}
+
+header h1 {
+  margin: 0 0 2px;
+  font-size: 16px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--accent-3));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.sub { margin: 0 0 10px; color: var(--muted); font-size: 11px; }
+
+section {
+  margin: 12px 0;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+section:first-of-type { border-top: 0; padding-top: 0; }
+
+h2 {
+  margin: 0 0 8px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--accent-3);
+}
+
+label { display: block; margin: 6px 0 4px; font-weight: 600; color: var(--text); }
+label.row {
+  font-weight: 500;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin: 6px 0;
+  color: var(--text);
+}
+
+input[type="url"], input[type="text"], input[type="number"] {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font: inherit;
+  background: var(--input-bg);
+  color: var(--text);
+}
+input::placeholder { color: var(--muted); }
+input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(255, 43, 214, 0.25);
+}
+
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.hint { margin: 6px 0 0; color: var(--muted); font-size: 11px; }
+.cele-note { color: var(--accent-3); }
+
+.actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.actions #btnStop { grid-column: 1 / -1; }
+
+button {
+  border: 0;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.05s ease, opacity 0.15s ease;
+}
+button:disabled { opacity: 0.45; cursor: not-allowed; }
+button.primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #fff;
+  box-shadow: 0 0 16px rgba(255, 43, 214, 0.35);
+}
+button.quiet {
+  background: var(--quiet);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+button:not(:disabled):hover { filter: brightness(1.08); }
+button:not(:disabled):active { transform: scale(0.98); }
+
+.status { margin: 0; white-space: pre-wrap; color: var(--text); }
+.counts { margin: 6px 0 0; color: var(--muted); font-size: 12px; }
+.hidden { display: none; }
+
+#winnersList { margin: 0; padding-left: 18px; color: var(--text); }
+#winnersList a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+#winnersList a:hover { color: var(--accent-3); }
+
+/* Shared popup / picker-tab layout. Edit :root above to swap palette. */
+header { position: relative; padding-right: 38px; }
+.gear { position: absolute; top: 0; right: 0; padding: 4px 8px; font-size: 20px; }
+.settings { position: absolute; right: 0; top: 36px; width: 280px; padding: 12px;
+  border: 1px solid var(--border); background: var(--bg); border-radius: 10px; z-index: 10; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { display: inline-flex; align-items: center; border: 1px solid var(--accent-2);
+  background: var(--quiet); border-radius: 16px; padding: 2px 4px 2px 9px; }
+.chip button { color: var(--text); background: transparent; padding: 3px 7px; }
+#btnStop:not(:disabled) { border-color: var(--danger); color: var(--danger); }
+.full-page { width: auto; max-height: none; min-height: 100vh; background-attachment: fixed; }
+.full-page > .panel { max-width: 720px; margin: 20px auto; }
+
+/* Exclude chips + ? suggestions */
+.chips:empty { display: none; }
+.chips + input { margin-top: 6px; }
+.chip.exclude { border-color: var(--danger); }
+.suggest-wrap { margin-top: 6px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.suggest-wrap[hidden] { display: none; }
+.suggest-label { color: var(--muted); font-size: 11px; }
+button.suggest { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px;
+  border-radius: 16px; border: 1px dashed var(--accent-3); background: transparent; color: var(--text); font-weight: 500; }
+button.suggest .q { display: inline-grid; place-items: center; width: 15px; height: 15px; border-radius: 50%;
+  background: var(--accent-3); color: #111; font-size: 10px; font-weight: 800; }
+
+/* Title credit: title text stays gradient, credit link is plain readable text. */
+header h1.title .credit { color: var(--accent-3); -webkit-text-fill-color: var(--accent-3); font-size: 11px; font-weight: 600; text-decoration: none; }
+header h1.title .credit:hover { text-decoration: underline; }
+
+/* Winner action chips: green = did it, red = did not (only scraped actions shown). */
+.action-chips { display: flex; flex-wrap: wrap; gap: 4px; margin: 3px 0 6px; }
+.action { font-size: 10px; font-weight: 600; padding: 1px 7px; border-radius: 10px; border: 1px solid; }
+.action.ok { color: #3ddc84; border-color: #3ddc84; background: rgba(61, 220, 132, 0.12); }
+.action.no { color: var(--danger); border-color: var(--danger); background: rgba(255, 77, 109, 0.12); }
+
+/* Bottom bar: Copy results left, Reset right. */
+.bottom-bar { display: flex; justify-content: space-between; gap: 8px; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border); }
+
+.legacy-notice[hidden] { display: none; }
+.legacy-notice { color: #ffb020; }
+
+/* Version line in the ⚙ menu. */
+.version { margin: 8px 0 0; color: var(--muted); font-size: 11px; }
+
+/* V1.0: needs-review chips (clickable), status badges and per-winner Redraw. */
+.action.review { color: #ffb020; border-color: #ffb020; background: rgba(255, 176, 32, 0.14); text-decoration: none; }
+a.action.review:hover { text-decoration: underline; }
+.badge { font-size: 10px; font-weight: 800; padding: 1px 7px; border-radius: 10px; border: 1px solid; vertical-align: middle; }
+.badge.ok { color: #3ddc84; border-color: #3ddc84; }
+.badge.review { color: #ffb020; border-color: #ffb020; background: rgba(255, 176, 32, 0.14); }
+button.redraw { font-size: 11px; padding: 2px 9px; vertical-align: middle; }
+
+/* V1.2 coverage estimate */
+.coverage .cov { margin: 2px 0; font-size: 11px; color: var(--muted); }
+.coverage .cov-head { font-weight: 700; color: var(--text); }
+.coverage .warn { color: #ffb020; }
+select#sweeps { width: 100%; }
